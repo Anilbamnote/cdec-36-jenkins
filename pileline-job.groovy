@@ -13,7 +13,7 @@ pipeline {
         }
         stage('Test') {
             steps {
-              withSonarQubeEnv(credentialsId: 'sonar-cred') {
+              withSonarQubeEnv(installationName: 'sonar'credentialsId: 'sonar-cred') {
                   // some block
                }
               
