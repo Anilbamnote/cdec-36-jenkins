@@ -13,19 +13,23 @@ pipeline {
         }
         stage('Test') {
             steps {
-              withSonarQubeEnv(installationName: 'sonar',credentialsId: 'sonar-cred') {
+
+             withSonarQubeEnv(installationName: 'sonar',credentialsId: 'sonar-cred') {
                   // some block
                }
               
-              
-              
-                // sh '/opt/maven/bin/mvn sonar:sonar -Dsonar.projectKey=studentapp -Dsonar.host.url=http://3.254.124.73:9000 -Dsonar.login=5e9fd080ac18d58eff5043c49e098d18e10b7d81'
+             // sh '/opt/maven/bin/mvn sonar:sonar -Dsonar.projectKey=studentapp -Dsonar.host.url=http://3.254.124.73:9000 -Dsonar.login=5e9fd080ac18d58eff5043c49e098d18e10b7d81'
             }
-
-
-
         }
-                stage('Deploy') {
+        stage('waitfor-gate') {
+            steps {
+             timeout(10) {
+  
+            }
+               waitForQualityGate abortPipeline: false, credentialsId: 'sonar-cred'
+            }
+        }
+        stage('Deploy') {
             steps {
                 echo "Deploy success"
             }
