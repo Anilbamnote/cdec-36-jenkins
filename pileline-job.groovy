@@ -29,18 +29,18 @@ pipeline {
                waitForQualityGate true
             }
         }
-        //  stage('artifact-upload') {
-        //     steps {
-        //        sh 'aws s3 cp target/studentapp-2.2-SNAPSHOT.war  s3://my-terra-bucket00999'
-        //    }
-        // }
-
-
-        stage('Deploy') {
+         stage('artifact-upload') {
             steps {
-               deploy adapters: [tomcat9(credentialsId: 'tomacat-cred', path: '', url: 'http://63.32.108.177:8080')], contextPath: '/', war: '**/*.war'
-            }
+               sh 'aws s3 cp target/studentapp-2.2-SNAPSHOT.war  s3://my-terra-bucket00999'
+           }
         }
+
+
+        // stage('Deploy') {
+        //     steps {
+        //        deploy adapters: [tomcat9(credentialsId: 'tomacat-cred', path: '', url: 'http://63.32.108.177:8080')], contextPath: '/', war: '**/*.war'
+        //     }
+        // }
     }
 }
 
